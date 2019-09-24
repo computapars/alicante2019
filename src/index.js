@@ -4,7 +4,7 @@ import './index.css'
 import Styles from './Styles'
 import exercises from './exercises'
 
-const exercise = 12
+const exercise = 1
 
 const Exercise = exercises[exercise - 1]
 
