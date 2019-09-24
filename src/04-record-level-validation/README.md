@@ -22,12 +22,12 @@ If your values look like:
 
 and two of the values, let's say `email` and `gamesPlayed` are invalid, the `errors` object should look like:
 
-```json
-{
+```js
+return {
   // no value for firstName because it's valid
   // no value for lastName because it's valid
-  "email": "Invalid email address",
-  "gamesPlayed": "You must play at least 10 games to qualify"
+  email: 'Invalid email address',
+  gamesPlayed: 'You must play at least 10 games to qualify'
 }
 ```
 
