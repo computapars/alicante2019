@@ -1,5 +1,7 @@
 import React from 'react'
 import { Form, Field } from 'react-final-form'
+import arrayMutators from 'final-form-arrays'
+import { FieldArray } from 'react-final-form-arrays'
 
 /**
  * Objective: Add a "hobbies" array to the form.
@@ -10,7 +12,7 @@ import { Form, Field } from 'react-final-form'
  */
 export default function SignupForm({ onSubmit }) {
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} mutators={arrayMutators}>
       {({ handleSubmit, values }) => (
         <form onSubmit={handleSubmit}>
           <div>
@@ -33,24 +35,37 @@ export default function SignupForm({ onSubmit }) {
               placeholder="Last Name"
             />
           </div>
-
-          <button type="button" className="add">
-            Add Hobby
-          </button>
-          <div>
-            <label htmlFor="hobby[0]">Hobby #1</label>
-            <input name="hobby[0]" type="text" placeholder="Hobby #1" />
-            <button type="button" className="remove">
-              Remove
-            </button>
-          </div>
-          <div>
-            <label htmlFor="hobby[1]">Hobby #2</label>
-            <input name="hobby[1]" type="text" placeholder="Hobby #2" />
-            <button type="button" className="remove">
-              Remove
-            </button>
-          </div>
+          <FieldArray name="hobbies">
+            {({ fields }) => (
+              <React.Fragment>
+                <button
+                  type="button"
+                  className="add"
+                  onClick={() => fields.push()}
+                >
+                  Add Hobby
+                </button>
+                {fields.map((name, index) => (
+                  <div key={name}>
+                    <label htmlFor={name}>Hobby #{index + 1}</label>
+                    <Field
+                      name={name}
+                      component="input"
+                      type="text"
+                      placeholder={`Hobby #${index + 1}`}
+                    />
+                    <button
+                      type="button"
+                      className="remove"
+                      onClick={() => fields.remove(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </React.Fragment>
+            )}
+          </FieldArray>
           <button type="submit">Submit</button>
           <pre>{JSON.stringify(values, undefined, 2)}</pre>
         </form>

@@ -26,11 +26,11 @@ export default function SignupForm({ onSubmit }) {
         return errors
       }}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, submitError }) => (
         <form onSubmit={handleSubmit}>
           <p>
-            Username <code>"erikras"</code> will fail, and any secret other than{' '}
-            <code>"42"</code> will also fail.
+            Username <code>"erikras"</code> will fail, and any secret other
+            than <code>"42"</code> will also fail.
           </p>
           <Field name="username">
             {({ input, meta }) => (
@@ -42,7 +42,9 @@ export default function SignupForm({ onSubmit }) {
                   type="text"
                   placeholder="Username"
                 />
-                {meta.error && meta.touched && <span>{meta.error}</span>}
+                {meta.touched && (meta.error || meta.submitError) && (
+                  <span>{meta.error || meta.submitError}</span>
+                )}
               </div>
             )}
           </Field>
@@ -56,13 +58,13 @@ export default function SignupForm({ onSubmit }) {
                   type="password"
                   placeholder="Secret"
                 />
-                {meta.error && meta.touched && <span>{meta.error}</span>}
+                {meta.touched && (meta.error || meta.submitError) && (
+                  <span>{meta.error || meta.submitError}</span>
+                )}
               </div>
             )}
           </Field>
-
-          {/* <div className="error">Form wide error goes here</div> */}
-
+          {submitError && <div className="error">{submitError}</div>}
           <button type="submit">Submit</button>
         </form>
       )}

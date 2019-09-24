@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from 'react-final-form'
+import { Form, useField } from 'react-final-form'
 import validate from './validate'
 
 /**
@@ -45,10 +45,17 @@ export default function SignupForm({ onSubmit }) {
 
 // ONLY EDIT BELOW THIS LINE
 
-const TextField = ({ name, placeholder }) => (
-  <input name={name} id={name} type="text" placeholder={placeholder} />
-)
-const EmailField = ({ name, placeholder }) => (
-  <input name={name} id={name} type="email" placeholder={placeholder} />
-)
-const Error = ({ name }) => <span>ERROR</span>
+const TextField = ({ name, placeholder }) => {
+  const { input } = useField(name)
+  return <input id={name} {...input} type="text" placeholder={placeholder} />
+}
+const EmailField = ({ name, placeholder }) => {
+  const { input } = useField(name)
+  return <input id={name} {...input} type="email" placeholder={placeholder} />
+}
+const Error = ({ name }) => {
+  const {
+    meta: { error, touched }
+  } = useField(name, { subscription: { touched: true, error: true } })
+  return error && touched ? <span>{error}</span> : null
+}
