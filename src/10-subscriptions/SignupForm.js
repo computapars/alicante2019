@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Field } from 'react-final-form'
+import { Form, Field, FormSpy } from 'react-final-form'
 import validate from './validate'
 import RenderCount from './RenderCount'
 
@@ -12,11 +12,19 @@ import RenderCount from './RenderCount'
  */
 export default function SignupForm({ onSubmit }) {
   return (
-    <Form onSubmit={onSubmit} validate={validate}>
+    <Form
+      onSubmit={onSubmit}
+      validate={validate}
+      subscription={{
+        submitting: true,
+      }}
+    >
       {({ handleSubmit, values, submitting }) => (
         <form onSubmit={handleSubmit}>
           <RenderCount />
-          <Field name="firstName">
+          <Field 
+            name="firstName"
+          >
             {({ input, meta }) => (
               <div>
                 <RenderCount />
@@ -31,7 +39,8 @@ export default function SignupForm({ onSubmit }) {
               </div>
             )}
           </Field>
-          <Field name="lastName">
+          <Field
+            name="lastName">
             {({ input, meta }) => (
               <div>
                 <RenderCount />
@@ -59,10 +68,18 @@ export default function SignupForm({ onSubmit }) {
           <button type="submit" disabled={submitting}>
             Submit
           </button>
-          <pre>
             <RenderCount />
-            {JSON.stringify(values, undefined, 2)}
-          </pre>
+            <FormSpy
+              subscription={{
+                values: true,
+              }}
+            >
+              {({values}) => (
+                <pre>
+                {JSON.stringify(values, undefined, 2)}
+                </pre>
+              )}
+            </FormSpy>
         </form>
       )}
     </Form>
