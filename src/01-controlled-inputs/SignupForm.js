@@ -13,6 +13,14 @@ import React from 'react'
  *   }
  */
 export default function SignupForm({ onSubmit }) {
+  const [
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    email,
+    setEmail ] = React.useState('');
+    
   return (
     <form>
       <div>
@@ -22,6 +30,8 @@ export default function SignupForm({ onSubmit }) {
           id="firstName"
           name="firstName"
           placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
       <div>
@@ -31,13 +41,25 @@ export default function SignupForm({ onSubmit }) {
           id="lastName"
           name="lastName"
           placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
         />
       </div>
       <div>
         <label htmlFor="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="Email" />
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
       </div>
-      <button type="submit">Submit</button>
+      <button onSubmit={(email, firstName, lastName) => {
+        // do something with this info
+        onSubmit(email, firstName, lastName)
+      }} type="submit">Submit</button>
     </form>
   )
 }
