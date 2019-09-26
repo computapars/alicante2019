@@ -3,33 +3,6 @@ import { Form, Field } from 'react-final-form'
 import validate from './validate'
 import RenderCount from './RenderCount'
 
-const useSecondsSinceMount = () => {
-  const [seconds, setSeconds] = React.useState(0)
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds + 1)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
-  return seconds
-}
-
-const WithSecondsSinceMount = ({ children }) => {
-  const seconds = useSecondsSinceMount()
-  return children(seconds)
-}
-const LargeComponent = () => {
-  return (
-    <div>
-      <div>SOME HUGE CONTENT</div>
-      <WithSecondsSinceMount>
-        {seconds => <div>{seconds} seconds</div>}
-      </WithSecondsSinceMount>
-      <div>MORE HUGE CONTENT</div>
-    </div>
-  )
-}
-
 /**
  * Objective: Minimize rerenders of `<Form/>` and all `<Field/>`s
  *
@@ -42,9 +15,6 @@ export default function SignupForm({ onSubmit }) {
     <Form onSubmit={onSubmit} validate={validate}>
       {({ handleSubmit, values, submitting }) => (
         <form onSubmit={handleSubmit}>
-          <div style={{ padding: 60, border: '1px solid red' }}>
-            <LargeComponent />
-          </div>
           <RenderCount />
           <Field name="firstName">
             {({ input, meta }) => (
