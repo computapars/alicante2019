@@ -13,38 +13,79 @@ import isEmail from 'sane-email-validation'
  */
 export default function SignupForm({ onSubmit }) {
   return (
-    <Form onSubmit={onSubmit}>
+    <Form
+      onSubmit={onSubmit}
+      validate={(values) => {
+        const errors = {};
+        if(!values.firstName){
+          errors.firstName = "required"
+        }
+        if (!values.lastName){
+          errors.lastName = "Required"
+        }
+        if(!values.email){
+          errors.email = "Required"
+        } else if (!isEmail(values.email)){
+          errors.email = "Not really an email";
+        }
+        return errors;
+      }}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="firstName">First Name</label>
             <Field
-              component="input"
               type="text"
-              id="firstName"
               name="firstName"
-              placeholder="First Name"
-            />
+            >
+              {({ input, meta }) => (
+                <React.Fragment>
+                  <input
+                    {...input}
+                  />
+                  {(meta.error && meta.touched) && (
+                    <span>{meta.error}</span>
+                  )}
+                </React.Fragment>
+              )}
+            </Field>
           </div>
           <div>
             <label htmlFor="lastName">Last Name</label>
             <Field
-              component="input"
               type="text"
-              id="lastName"
               name="lastName"
-              placeholder="Last Name"
-            />
+            >
+              {({ input, meta }) => (
+                <React.Fragment>
+                  <input
+                    {...input}
+                  />
+                  {(meta.error && meta.touched) && (
+                    <span>{meta.error}</span>
+                  )}
+                </React.Fragment>
+              )}
+            </Field>
           </div>
           <div>
             <label htmlFor="email">Email</label>
             <Field
-              component="input"
               type="text"
-              id="email"
               name="email"
-              placeholder="Email"
-            />
+            >
+              {({ input, meta }) => (
+                <React.Fragment>
+                  <input
+                    {...input}
+                  />
+                  {(meta.error && meta.touched) && (
+                    <span>{meta.error}</span>
+                  )}
+                </React.Fragment>
+              )}
+            </Field>
           </div>
           <button type="submit">Submit</button>
         </form>
